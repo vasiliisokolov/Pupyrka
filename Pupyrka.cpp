@@ -1,5 +1,4 @@
 ﻿#include <iostream>
-#include<tuple>
 
 void fill_pup(bool pup[][12]);
 void show_pup(bool pup[][12], char pupChar[][12]);
