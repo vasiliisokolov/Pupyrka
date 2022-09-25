@@ -2,29 +2,28 @@
 #include<tuple>
 
 void fill_pup(bool pup[][12]);
-std::tuple<int, int> show_pup(bool pup[][12]);
-void smash_pup(bool pup[][12], int, int);
+void show_pup(bool pup[][12], char pupChar[][12]);
+int smash_pup(bool pup[][12], int, int);
 
 int main()
 {
     bool pup[12][12];
-    int counterO;
+    char pupChar[12][12];
     int counterX = 0;
     int firstCorner, secondCorner;
     std::cout << "Let's play!" << std::endl;
     fill_pup(pup);
-    do
+    for(int counterO = 144; counterO > 0; counterO - counterX)
     {
+        show_pup(pup, pupChar);
+        std::cout << "Enter two corners of the pressing area:\n";
+        std::cin >> firstCorner >> secondCorner;
+        counterX = smash_pup(pup, firstCorner, secondCorner);
         for (int i = 0; i < counterX; i++)
         {
             std::cout << "Pup!" << std::endl;
         }
-        std::tie(counterO, counterX) = show_pup(pup);
-        std::cout << "Enter two corners of the pressing area:\n";
-        std::cin >> firstCorner >> secondCorner;
-        smash_pup(pup, firstCorner, secondCorner);
-        std::cout << counterO;
-    } while (counterO > 0);
+    } 
 }
 
 void fill_pup(bool pup[][12])
@@ -39,11 +38,8 @@ void fill_pup(bool pup[][12])
     }
 }
 
-std::tuple<int, int> show_pup(bool pup[][12])
+void show_pup(bool pup[][12], char pupChar[][12])
 {
-    char pupChar[12][12];
-    int counterO = 0;
-    int counterX = 0;
     for (int i = 0; i < 12; ++i)
     {
         for (int j = 0; j < 12; ++j)
@@ -51,12 +47,10 @@ std::tuple<int, int> show_pup(bool pup[][12])
             if (pup[i][j])
             {
                 pupChar[i][j] = 'o';
-                counterO++;
             }
             else
             {
                 pupChar[i][j] = 'x';
-                counterX++;
             }
         }
         
@@ -70,17 +64,21 @@ std::tuple<int, int> show_pup(bool pup[][12])
             std::cout << std::endl;
     }
     
-    return std::make_tuple(counterO, counterX);
 }
 
-void smash_pup(bool pup[][12], int firstCorner, int secondCorner)
+int smash_pup(bool pup[][12], int firstCorner, int secondCorner)
 {
+    int counterX = 0;
     for (int i = firstCorner; i < secondCorner; i++)
     {
         for (int j = firstCorner; j < secondCorner; j++)
         {
-            pup[i][j] = false;
+            if (pup[i][j])
+            {
+                pup[i][j] = false;
+                counterX++;
+            }
         }
     }
-
+    return counterX;
 }
