@@ -4,6 +4,7 @@
 void fill_pup(bool pup[][12]);
 void show_pup(bool pup[][12], char pupChar[][12]);
 int smash_pup(bool pup[][12], int, int);
+bool check_input(int, int);
 
 int main()
 {
@@ -13,16 +14,27 @@ int main()
     int firstCorner, secondCorner;
     std::cout << "Let's play!" << std::endl;
     fill_pup(pup);
-    for(int counterO = 144; counterO > 0; counterO - counterX)
+    for(int counterO = 144; counterO > 0; counterO -= counterX)
     {
         show_pup(pup, pupChar);
-        std::cout << "Enter two corners of the pressing area:\n";
+        std::cout << "Enter two corners of the pressing area: " << std::endl;
         std::cin >> firstCorner >> secondCorner;
-        counterX = smash_pup(pup, firstCorner, secondCorner);
-        for (int i = 0; i < counterX; i++)
+        if (!check_input(firstCorner, secondCorner))
         {
-            std::cout << "Pup!" << std::endl;
+            std::cout << "Error! Nubers is out of area!" << std::endl;
+            counterX = 0;
         }
+        else
+        {
+            counterX = smash_pup(pup, firstCorner, secondCorner);
+            for (int i = 0; i < counterX; i++)
+            {
+                std::cout << "Pup!" << std::endl;
+            }
+            
+        }
+        //std::cout << "O: " << counterO << std::endl;
+        //std::cout << "X: " << counterX << std::endl;
     } 
 }
 
@@ -81,4 +93,17 @@ int smash_pup(bool pup[][12], int firstCorner, int secondCorner)
         }
     }
     return counterX;
+}
+
+bool check_input(int firstCorner, int secondCorner)
+{
+    if (firstCorner >= 0 && firstCorner <= 12
+        || secondCorner >= 0 && secondCorner <= 12)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
